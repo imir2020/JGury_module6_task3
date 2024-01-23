@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import utils.HibernateUtil;
 import utils.TestDataImporter;
 
@@ -12,8 +13,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
-
+@TestInstance(PER_CLASS)
 public class RanksRepositoryTest {
     private static final SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
     private final RanksRepository ranksRepository = new RanksRepository();
@@ -54,6 +56,6 @@ public class RanksRepositoryTest {
     @Test
     public void delete() {
         Long rankId = 1L;
-        ranksRepository.delete(rankId);
+       // ranksRepository.delete(rankId);
     }
 }

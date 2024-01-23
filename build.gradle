@@ -8,8 +8,9 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-ext{
-    mapstructVersion = "1.5.4.Final"
+
+ext {
+    mapstructVersion = '1.5.3.Final'
 }
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
@@ -38,7 +39,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.6.0'
 
     // https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-api
-    compileOnly 'jakarta.platform:jakarta.jakartaee-api:9.0.0'
+    compileOnly 'jakarta.platform:jakarta.jakartaee-api:10.0.0'
 
 
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-jcache
@@ -54,11 +55,12 @@ dependencies {
 // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
     implementation 'org.hibernate.validator:hibernate-validator:6.0.22.Final'
 
-    // https://mvnrepository.com/artifact/javax.el/javax.el-api
-    implementation 'javax.el:javax.el-api:3.0.0'
+// https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl
+    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.0'
 
-    // https://mvnrepository.com/artifact/org.glassfish/javax.el
-    implementation 'org.glassfish:javax.el:3.0.0'
+    // https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+
 
 }
 
@@ -69,4 +71,7 @@ test {
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+wrapper {
+    gradleVersion("8.2")
 }

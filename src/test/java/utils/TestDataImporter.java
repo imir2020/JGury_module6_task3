@@ -74,8 +74,8 @@ public class TestDataImporter {
         saveSales(session, product3,77L,employee2,LocalDate.parse("2022-07-11"));
 
         saveOrder(session,supplierOne,"Шоколад", 200L,150L,LocalDate.parse("2022-04-12"));
-        saveOrder(session,supplierOne,"Мясо", 100L,350L,LocalDate.parse("2022-05-11"));
-        saveOrder(session,supplierOne,"Бутил. вода", 200L,150L,LocalDate.parse("2022-06-19"));
+        saveOrder(session,supplierTwo,"Мясо", 100L,350L,LocalDate.parse("2022-05-11"));
+        saveOrder(session,supplierThree,"Бутил. вода", 200L,150L,LocalDate.parse("2022-06-19"));
 
         session.getTransaction().commit();
 

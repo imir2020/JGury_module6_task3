@@ -84,7 +84,7 @@ public class OrdersRepositoryTest {
 
     @Test
     public void delete() {
-        Long orderId = 1L;
+        Long orderId = 2L;
         assertThrows(NoSuchElementException.class, () -> {
             orderRepostory.delete(orderId);
              orderRepostory.findById(orderId).get();

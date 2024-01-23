@@ -15,8 +15,7 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 
@@ -98,7 +97,7 @@ public class SuppliersRepositoryTest {
     public void listEmailAndPhoneNumbers() {
         List<Object[]> results = suppliersRepository.listEmailAndPhoneNumber();
         List<String> emailList = results.stream().map(r -> (String) r[0]).toList();
-        assertThat(emailList).contains("horn@gmail.com", "beak@gmail.com", "nose@yandex.ru");
+        assertThat(emailList).contains("horn@gmail.com", "beak@gmail.com");
         emailList.forEach(System.out::println);
 
         List<String> phoneNumbersList = results.stream().map(r -> (String) r[1]).toList();

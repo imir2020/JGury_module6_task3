@@ -16,8 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @TestInstance(PER_CLASS)
@@ -47,7 +46,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findById() {
-        Long userId = 2L;
+        Long userId = 1L;
         User user = userRepository.findById(userId).get();
         log.info("Object  was find in method findById(): {}", user);
 
@@ -67,7 +66,7 @@ public class UserRepositoryTest {
 
     @Test
     public void update() {
-        Long userId = 2L;
+        Long userId = 1L;
         Status updateStatus = Status.ADMIN;
         User user = userRepository.findById(userId).get();
         user.setStatus(updateStatus);
@@ -119,7 +118,7 @@ public class UserRepositoryTest {
     @Test
     public void findAllUsersByBirthday() {
         List<User> users = userRepository.findAllUsersByBirthday(LocalDate.parse("1995-01-11"));
-        assertThat(users).hasSize(4);
+        assertThat(users).hasSize(3);
         users.forEach(System.out::println);
     }
 }

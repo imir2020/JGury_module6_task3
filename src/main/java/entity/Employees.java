@@ -43,7 +43,7 @@ public class Employees implements BaseEntity<Long> {
     @Column(name = "address")
     private String address;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "rank_id")
     @NotAudited
     private Ranks rank;

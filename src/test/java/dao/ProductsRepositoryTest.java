@@ -4,82 +4,79 @@ import entity.Category;
 import entity.Products;
 import entity.Suppliers;
 import lombok.Cleanup;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.HibernateUtil;
+import utils.TestDataImporter;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+
+@TestInstance(PER_CLASS)
 public class ProductsRepositoryTest {
+    private static final SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+    private final ProductsRepository productsRepository = new ProductsRepository();
+    private final CategoryRepository categoryRepository = new CategoryRepository();
+    private final SuppliersRepository suppliersRepository = new SuppliersRepository();
     private final Logger log = LoggerFactory.getLogger("ProductsDaoTest");
+
+    @BeforeAll
+    static void initDb() {
+        TestDataImporter.importData(sessionFactory);
+    }
+
+    @AfterAll
+    static void finish() {
+        sessionFactory.close();
+    }
 
     @Test
     public void findAll() {
-        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
-        @Cleanup var session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Products> products = session.createQuery("from Products", Products.class).list();
-        session.getTransaction().commit();
+        List<Products> products = productsRepository.findAll();
         log.info("This is list of products from method findAll(): {}", products);
     }
 
     @Test
     public void findById() {
-        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
-        @Cleanup var session = sessionFactory.openSession();
-        session.beginTransaction();
-        Products product = session.get(Products.class, 1L);
-        session.getTransaction().commit();
+        Long id = 1L;
+        Products product = productsRepository.findById(id).get();
         log.info("Object from method findBuId(): {}", product);
     }
 
     @Test
     public void save() {
-        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
-        @Cleanup var session = sessionFactory.openSession();
-        session.beginTransaction();
         Products product = Products.builder()
                 .name("Мясо")
                 .count(125L)
                 .priceForOne(500L)
                 .build();
-//        Suppliers supplier = Suppliers.builder()
-//                .name("Beaks&&Feathers")
-//                .address("Unknown")
-//                .email("beak@gmail.com")
-//                .phoneNumber("1-111-111-11-99")
-//                .build();
-        //session.save(supplier);
-        Category category = session.get(Category.class, 3L);
-        Suppliers supplier = session.get(Suppliers.class,4L);
+        Category category = categoryRepository.findById(3L).get();
+        Suppliers supplier = suppliersRepository.findById(3L).get();
         product.setSupplier(supplier);
         product.setCategory(category);
-        session.save(product);
-        session.getTransaction().commit();
+        productsRepository.save(product);
         log.info("Object was saved in method save(): {}", product);
     }
 
     @Test
     public void update() {
-        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
-        @Cleanup var session = sessionFactory.openSession();
-        session.beginTransaction();
-        Products product = session.get(Products.class, 1L);
+        Products product = productsRepository.findById(1L).get();
         product.setCount(700L);
-        session.update(product);
-        session.getTransaction().commit();
+        productsRepository.update(product);
         log.info("Object was updated in method update(): {}", product);
     }
 
     @Test
     public void delete() {
-        @Cleanup var sessionFactory = HibernateUtil.buildSessionFactory();
-        @Cleanup var session = sessionFactory.openSession();
-        session.beginTransaction();
-        Products product = session.get(Products.class, 4L);
-        session.delete(product);
-        session.getTransaction().commit();
-        log.warn("Object was deleted in method delete():{}",product);
+        Long id = 4L;
+        Products product = productsRepository.findById(id).get();
+        productsRepository.delete(id);
+        log.warn("Object was deleted in method delete():{}", product);
     }
 }

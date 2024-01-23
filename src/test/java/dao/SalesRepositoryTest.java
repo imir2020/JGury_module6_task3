@@ -15,6 +15,7 @@ import utils.TestDataImporter;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
@@ -50,16 +51,17 @@ public class SalesRepositoryTest {
     public void findById() {
         Sales sales = salesRepository.findById(1L).get();
         assertTrue(sales!=null);
-        System.out.println(sales);
+        System.out.println(sales + " sales");
     }
 
     @Test
     public void save() {
-        Employees employee = employeesRepository.findById(1L).get();
-        Products product = productsRepository.findById(1L).get();
+        Employees employee = employeesRepository.findById(4L).get();
+        System.out.println(employee + " employee");
+        Products product = productsRepository.findById(6L).get();
         Sales sales = Sales.builder()
                 .product(product)
-                .count(5L)
+                .count(4L)
                 .employee(employee)
                 .dateSales(LocalDate.now())
                 .build();
@@ -68,17 +70,16 @@ public class SalesRepositoryTest {
 
     @Test
     public void update() {
-        @Cleanup var session = sessionFactory.openSession();
-        Sales sales = session.get(Sales.class, 1L);
+        Sales sales = salesRepository.findById(1L).get();
         sales.setCount(15L);
         salesRepository.update(sales);
-        Sales beforeApdate = session.get(Sales.class, 1L);
-        assertTrue(sales.equals(beforeApdate));
+        Sales beforeUpdate = salesRepository.findById(1L).get();
+        assertEquals(sales, beforeUpdate);
 
     }
 
     @Test
     public void delete() {
-        salesRepository.delete(1L);
+        salesRepository.delete(2L);
     }
 }
